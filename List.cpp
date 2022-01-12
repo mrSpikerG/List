@@ -53,22 +53,52 @@ public:
 
 
 	void show() {
-		Node<T>* tmp = this->head;
+		if (size != 0) {
+			Node<T>* tmp = this->head;
 
-		while (tmp != nullptr) {
-			cout << "\nprev: " << tmp->prev << "\tthis: " << tmp << "\tTnext: " << tmp->next << "\tvalue: " << tmp->value;
-			tmp = tmp->next;
+			while (tmp != nullptr) {
+				cout << "prev: " << tmp->prev << "\tthis: " << tmp << "\tTnext: " << tmp->next << "\tvalue: " << tmp->value << "\n";
+				tmp = tmp->next;
+			}
+		}
+		else {
+			cout << "\n\nNULL\n\n";
 		}
 	}
 
 	void remove(int num) {
 
+		if (isIn(num) == true) {
+			Node<T>* tmp = this->head;
+			if (this->head->value == num) {
+				this->head->next->prev = nullptr;
+				this->head = this->head->next;
+			}
+			else {
+				if (this->tail->value == num) {
+					this->tail->prev->next = nullptr;
+					this->tail = this->tail->prev;
+				}
+				else {
+					while (tmp->next != nullptr) {
+
+						if (tmp->value == num) {
+							break;
+						}
+						tmp = tmp->next;
+					}
+					tmp->next->prev = tmp->prev;
+					tmp->prev->next = tmp->next;
+				}
+			}
+			this->size--;
+		}
 	}
 
 	bool isIn(int num) {
 		Node<T>* tmp = this->head;
 		bool checker = false;
-		while (tmp->next != nullptr) {
+		while (tmp != nullptr) {
 			if (tmp->value == num) {
 				checker = true;
 			}
@@ -88,10 +118,14 @@ int main()
 	MyTestList.add(1);
 	MyTestList.add(2);
 	MyTestList.add(3);
+	MyTestList.add(4);
+	MyTestList.add(5);
+
+	MyTestList.remove(5);
 
 	MyTestList.show();
 
-	cout << "\n" << MyTestList.isIn(3)<<"\n";
+	//cout << "\n" << MyTestList.isIn(3)<<"\n";
 
 }
 
