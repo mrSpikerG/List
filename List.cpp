@@ -37,7 +37,6 @@ public:
 		}
 		else {
 			Node<T>* tmp = this->head;
-
 			while (tmp->next != nullptr) {
 				tmp = tmp->next;
 			}
@@ -46,6 +45,8 @@ public:
 			tmp->next->prev = tmp;
 			tmp->next->next = nullptr;
 			tmp->next->value = num;
+
+			this->tail = tmp->next;
 		}
 		this->size++;
 	}
@@ -58,8 +59,6 @@ public:
 			cout << "\nprev: " << tmp->prev << "\tthis: " << tmp << "\tTnext: " << tmp->next << "\tvalue: " << tmp->value;
 			tmp = tmp->next;
 		}
-
-
 	}
 
 	void remove(int num) {
@@ -67,7 +66,15 @@ public:
 	}
 
 	bool isIn(int num) {
-
+		Node<T>* tmp = this->head;
+		bool checker = false;
+		while (tmp->next != nullptr) {
+			if (tmp->value == num) {
+				checker = true;
+			}
+			tmp = tmp->next;
+		}
+		return checker;
 	}
 	unsigned long long getsize() {
 		return size;
@@ -84,6 +91,7 @@ int main()
 
 	MyTestList.show();
 
+	cout << "\n" << MyTestList.isIn(3)<<"\n";
 
 }
 
